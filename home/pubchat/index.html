@@ -1,0 +1,130 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Serpchat</title>  
+    <style>  
+        #displayBox {  
+            width: 1800px;  
+            height: 500px;  
+            border: 1px solid black;  
+            padding: 10px;  
+            overflow-y: scroll;  }
+        
+    </style>  
+</head>  
+<body>  
+
+
+<h2>Serpchat Website  <a href="https://serpchat.github.io">主页</a>   <a href="https://serpchat.github.io">Privacy</a></h2>
+<hr/>
+<h1> 公共聊天室 </h1>
+<h3> 房间主：</p></h3>
+<p style="color: purple;"><img src="https://www.ps4wallpapers.com/wp-content/uploads/2021/07/2021-07-24_60fbe2f6e4d69_wp5810523-minecraft-rtx-wallpapers.jpg?_r_=6f728a2c-abd7-20b1-4cbc-67585b820004" alt="" width="25" height="25">  Serpblog官方团队 </p>
+<h3> 这个房间启动于2024/3/2，关闭于2099/12/31</h3>
+<h3>流量：<img src="https://badges.toozhao.com/badges/01HR0T6C953VFCF4X45CBD301F/green.svg" /> / 无限 </h3>
+<input type="text" id="usernameBox" placeholder="输入你的用户名......">  
+<button onclick="submitUsername()">保存用户名</button>  
+<input type="text" id="inputBox" placeholder="输入你要发送的内容">  
+<button onclick="submitText()">发送</button>  
+
+  
+<div id="displayBox">  
+    <!-- 提交的内容将在这里显示 -->  
+</div>  
+ 
+<h3>©2024 Serpblog.
+<script>  
+
+
+
+function initializeChatHistory() {  
+    var displayBox = document.getElementById('displayBox');  
+    // 尝试从localStorage中获取chatHistory  
+    var chatHistory = localStorage.getItem('chatHistory') || '';  
+    // 将聊天记录添加到显示框中  
+    displayBox.innerHTML = chatHistory;  
+}
+    
+function loadPreviousText() {  
+        var displayBox = document.getElementById('displayBox');  
+        var savedText = localStorage.getItem('savedText');  
+        if (savedText) {  
+            displayBox.innerHTML = savedText;  
+        }  
+    }  
+
+// 用于保存用户名的变量  
+let savedUsername = '';  
+  
+function submitUsername() {  
+    var usernameBox = document.getElementById('usernameBox');  
+      
+    // 获取并保存用户名  
+    savedUsername = usernameBox.value;  
+      
+    // 清空用户名输入框  
+    usernameBox.value = "";  
+}  
+  
+function submitText() {  
+    var inputBox = document.getElementById('inputBox');  
+    var displayBox = document.getElementById('displayBox');  
+    var usernameBox = document.getElementById('usernameBox');  
+    var textContent = inputBox.value.trim();  
+      
+    // 获取文本框中的内容  
+    var textContent = inputBox.value;  
+
+    // 检查用户名是否为空，如果为空则设置为“匿名用户”  
+    if (savedUsername === '') {  
+        savedUsername = '匿名用户';  
+    }  
+    // 检查发送的内容是否为空  
+    if (textContent === '') {  
+        alert('发送内容不能为空！');  
+        return; // 提前返回，不执行后续代码  
+    }  
+  
+    // 检查发送的内容是否超过128个字  
+    if (textContent.length > 128) {  
+        alert('发送内容不能超过128个字！');  
+        return; // 提前返回，不执行后续代码  
+    }  
+      
+    // 获取当前时间  
+    var currentTime = new Date();  
+    var year = currentTime.getFullYear();  
+    var month = (currentTime.getMonth() + 1).toString().padStart(2, '0');  
+    var day = currentTime.getDate().toString().padStart(2, '0');  
+    var hours = currentTime.getHours().toString().padStart(2, '0');  
+    var minutes = currentTime.getMinutes().toString().padStart(2, '0');  
+    var seconds = currentTime.getSeconds().toString().padStart(2, '0');  
+      
+    // 格式化当前时间为年-月-日 时:分:秒格式  
+    var currentTimeFormatted = `[${year}-${month}-${day} ${hours}:${minutes}:${seconds}]`;  
+    
+    // 创建新的消息条目  
+    var newMessage = `${currentTimeFormatted}  ${savedUsername} : ${textContent} <br>`;  
+
+    // 在显示框中添加新内容，包括用户名、时间和用户输入的内容  
+    localStorage.setItem('chatHistory', localStorage.getItem('chatHistory') + newMessage);  
+    displayBox.innerHTML += newMessage;  
+
+      
+    // 清空文本框内容，但不清除显示框中的内容  
+    inputBox.value = "";  
+
+
+}
+
+    // 当页面加载时初始化聊天记录  
+    window.onload = initializeChatHistory;  
+
+
+</script>  
+  
+</body>  
+</html>
+
